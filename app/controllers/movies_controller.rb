@@ -1,5 +1,6 @@
 class MoviesController < ApplicationController
 
+
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
@@ -7,8 +8,23 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    if (params[:id] == nil)
+      @movies = Movie.all
+    elsif (params[:id] == 'title_header')
+      @movies = Movie.find(:all , :order => "title")
+    elsif(params[:id] == 'release_date_header')
+      @movies = Movie.find(:all , :order => "release_date")
+    end
   end
+
+
+  # def sort_title
+  #   @movies = Movie.find(:all , order => "title")
+  # end
+
+  # def sort_date
+  #   @movies = Movie.find(:all , order => "release_date")
+  # end
 
   def new
     # default: render 'new' template
